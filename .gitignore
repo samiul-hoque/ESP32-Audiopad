@@ -39,3 +39,7 @@
 
 # debug information files
 *.dwo
+
+# Secrets
+# Contains sensitive information like WiFi credentials
+secrets.h
