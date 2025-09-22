@@ -14,6 +14,7 @@ private:
     AudioOutputI2S *out;
     AudioFileSourceID3 *id3;
     bool isPlaying;
+    float currentVolume;
     
 public:
     AudioManager();
@@ -22,6 +23,8 @@ public:
     void playButtonSound(int buttonNum);
     void stopCurrentAudio();
     void update();
+    void setVolume(float volume);
+    float getVolume() const { return currentVolume; }
     bool getIsPlaying() const { return isPlaying; }
 };
 
@@ -32,6 +35,7 @@ AudioManager::AudioManager() {
     out = nullptr;
     id3 = nullptr;
     isPlaying = false;
+    currentVolume = DEFAULT_AUDIO_GAIN;
 }
 
 AudioManager::~AudioManager() {
@@ -46,7 +50,18 @@ void AudioManager::init() {
     // Initialize audio output
     out = new AudioOutputI2S();
     out->SetPinout(I2S_BCLK_PIN, I2S_LRC_PIN, I2S_DIN_PIN); // BCLK, LRC, DIN
-    out->SetGain(AUDIO_GAIN); // Adjust volume (0.0 to 1.0) 
+    out->SetGain(currentVolume); // Use current volume setting
+}
+
+void AudioManager::setVolume(float volume) {
+    // Clamp volume to valid range
+    currentVolume = constrain(volume, MIN_AUDIO_GAIN, MAX_AUDIO_GAIN);
+    
+    // Apply to audio output if it exists
+    if (out) {
+        out->SetGain(currentVolume);
+        Serial.printf("Volume set to: %.2f\n", currentVolume);
+    }
 }
 
 void AudioManager::update() {
