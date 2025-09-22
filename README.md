@@ -19,11 +19,11 @@ A WiFi-enabled, web-configurable audio playback device using an ESP32. This proj
 ## Hardware Requirements
 
 *   **ESP32 Development Board:** Any standard ESP32 board should work.
-*   **I2S Audio Amplifier:** A module like the MAX98357A is recommended.
-*   **Speaker:** A small speaker compatible with your amplifier.
-*   **Push Buttons (x6):** Momentary push buttons.
-*   **Resistors:** External pull-up resistors are recommended for the buttons if they don't have them built-in.
-*   **Battery (Optional):** A LiPo or other battery to make the project portable.
+*   **I2S Audio Amplifier:** MAX98357A has been used.
+*   **Speaker:** 3W speaker.
+*   **Push Buttons (x6):** Cherry MX Red buttons.
+*   **Resistors:** External pull-up resistors are needed for deep sleep functionality to save battery.
+*   **Battery:** 1650 Lithium Ion battery with BMS
 *   **Wires and a breadboard/protoboard.**
 
 ### Pinout
@@ -36,14 +36,14 @@ The following pin connections are defined in the code.
 | `BCLK`            | 4         | Bit Clock                                 |
 | `LRC` / `WS`      | 2         | Left/Right Clock (Word Select)            |
 | `DIN`             | 15        | Data In                                   |
-| **Buttons**       |           | Connect one side to GND, the other to pin |
+| **Buttons**       |           |10k External Pull-up Resistors used |
 | Button 1          | 25        |                                           |
 | Button 2          | 26        |                                           |
 | Button 3          | 27        |                                           |
 | Button 4          | 13        |                                           |
 | Button 5          | 14        |                                           |
 | Button 6          | 32        |                                           |
-| **Battery**       |           | (Optional) For voltage monitoring         |
+| **Battery**       |           | For voltage monitoring         |
 | `BATTERY_PIN`     | 35        | Connect to the positive terminal          |
 
 > **Note:** The code is currently configured for buttons with external pull-up resistors (`pinMode(PIN, INPUT)`). The current debounce logic works for a button press pulling the pin LOW.
@@ -102,8 +102,4 @@ The following pin connections are defined in the code.
 
 ## Future Improvements
 
-*   Create a more dynamic UI that doesn't hardcode 6 buttons.
-*   Add a volume control slider to the web interface.
-*   Re-map buttons to pin assignment.
 *   Implement a deep sleep mode to conserve battery when idle.
-*   Refactor code to manageable chunks

@@ -2,7 +2,7 @@
 #define CONFIG_H
 
 // Hardware pin definitions
-const int BUTTON_PINS[] = {25, 26, 27, 13, 14, 32};
+const int BUTTON_PINS[] = {13, 14, 27, 26, 25, 32};
 const int BATTERY_PIN = 35;
 
 // Battery voltage conversion
