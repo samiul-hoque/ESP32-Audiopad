@@ -19,12 +19,12 @@ h1, h2 { color: #0056b3; }
 .battery-medium { background-color: #ffc107; }
 .battery-low { background-color: #f44336; }
 .upload-grid { display: grid; grid-template-columns: 1fr; gap: 5px; }
-@media (min-width: 600px) { .upload-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 600px) { .upload-grid { grid-template-columns: repeat(2, 1fr); } }
 .upload-item { background: #f9f9f9; padding: 2px; border-radius: 5px; border: 1px solid #ddd; display: flex; flex-direction: column; }
 .upload-item label { font-weight: bold; display: block; margin-bottom: 5px; }
 .upload-item .button-group { display: flex; gap: 5px; margin-top: auto; }
 .upload-item .button-group button { padding: 4px 8px; font-size: 0.8em; }
-input[type="file"] { margin-bottom: 10px; width: 100%; }
+input[type="file"] { display: block; margin-bottom: 10px; width: 100%; }
 button, .stop-btn { background-color: #007bff; color: white; border: none; padding: 5px 5px; border-radius: 4px; cursor: pointer; font-size: 1em; }
 button:hover, .stop-btn:hover { background-color: #0056b3; }
 .stop-btn { background-color: #dc3545; }
@@ -47,7 +47,7 @@ const char* WEB_HTML = R"=====(
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ESP32 Audio Controller - Preview</title>
+    <title>ESP32 Audio Controller</title>
     <link rel="stylesheet" href="/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -89,7 +89,7 @@ const char* WEB_HTML = R"=====(
                 <form id="upload-form" enctype="multipart/form-data">
                     <div class="upload-grid">
                         <div class="upload-item">
-                            <label>Button 1 (Pin 25):</label>
+                            <label>Button 1:</label>
                             <input type="file" name="file" data-button="1" accept=".mp3">
                             <div class="button-group">
                                 <button type="button" onclick="uploadFile(1)">Upload</button>
@@ -97,7 +97,7 @@ const char* WEB_HTML = R"=====(
                             </div>
                         </div>
                         <div class="upload-item">
-                            <label>Button 2 (Pin 26):</label>
+                            <label>Button 2:</label>
                             <input type="file" name="file" data-button="2" accept=".mp3">
                             <div class="button-group">
                                 <button type="button" onclick="uploadFile(2)">Upload</button>
@@ -105,7 +105,7 @@ const char* WEB_HTML = R"=====(
                             </div>
                         </div>
                         <div class="upload-item">
-                            <label>Button 3 (Pin 27):</label>
+                            <label>Button 3:</label>
                             <input type="file" name="file" data-button="3" accept=".mp3">
                             <div class="button-group">
                                 <button type="button" onclick="uploadFile(3)">Upload</button>
@@ -113,7 +113,7 @@ const char* WEB_HTML = R"=====(
                             </div>
                         </div>
                         <div class="upload-item">
-                            <label>Button 4 (Pin 13):</label>
+                            <label>Button 4:</label>
                             <input type="file" name="file" data-button="4" accept=".mp3">
                             <div class="button-group">
                                 <button type="button" onclick="uploadFile(4)">Upload</button>
@@ -121,7 +121,7 @@ const char* WEB_HTML = R"=====(
                             </div>
                         </div>
                         <div class="upload-item">
-                            <label>Button 5 (Pin 14):</label>
+                            <label>Button 5:</label>
                             <input type="file" name="file" data-button="5" accept=".mp3">
                             <div class="button-group">
                                 <button type="button" onclick="uploadFile(5)">Upload</button>
@@ -129,7 +129,7 @@ const char* WEB_HTML = R"=====(
                             </div>
                         </div>
                         <div class="upload-item">
-                            <label>Button 6 (Pin 32):</label>
+                            <label>Button 6:</label>
                             <input type="file" name="file" data-button="6" accept=".mp3">
                             <div class="button-group">
                                 <button type="button" onclick="uploadFile(6)">Upload</button>
