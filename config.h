@@ -30,4 +30,9 @@ const unsigned long BATTERY_UPDATE_INTERVAL = 10000;
 // Number of buttons
 const int NUM_BUTTONS = 6;
 
+// Power management settings
+const unsigned long SLEEP_TIMEOUT_MS = 300000;        // 5 minutes (300,000ms) - configurable sleep timeout
+const unsigned long SLEEP_WARNING_TIME_MS = 30000;    // 30 seconds warning before sleep
+const unsigned long ACTIVITY_UPDATE_INTERVAL = 5000;  // Check activity every 5 seconds
+
 #endif

@@ -18,6 +18,10 @@ private:
     void (*onStopAudio)() = nullptr;
     void (*onSetVolume)(float volume) = nullptr;
     float (*onGetVolume)() = nullptr;
+    void (*onWebActivity)() = nullptr; // New callback for web activity
+    
+    // Helper to update activity for all requests
+    void updateWebActivity();
     
 public:
     WebServerManager();
@@ -27,6 +31,7 @@ public:
     void setTestButtonCallback(void (*callback)(int));
     void setStopAudioCallback(void (*callback)());
     void setVolumeCallbacks(void (*setCallback)(float), float (*getCallback)());
+    void setWebActivityCallback(void (*callback)()); // New method
     
     // Handler functions
     void handleRoot();
@@ -51,6 +56,12 @@ WebServerManager::~WebServerManager() {
     if (server) {
         delete server;
         server = nullptr;
+    }
+}
+
+void WebServerManager::updateWebActivity() {
+    if (onWebActivity != nullptr) {
+        onWebActivity();
     }
 }
 
@@ -88,15 +99,22 @@ void WebServerManager::setVolumeCallbacks(void (*setCallback)(float), float (*ge
     onGetVolume = getCallback;
 }
 
+void WebServerManager::setWebActivityCallback(void (*callback)()) {
+    onWebActivity = callback;
+}
+
 void WebServerManager::handleCSS() {
+    updateWebActivity();
     server->send(200, "text/css", WEB_CSS);
 }
 
 void WebServerManager::handleRoot() {
+    updateWebActivity();
     server->send(200, "text/html", WEB_HTML);
 }
 
 void WebServerManager::handleTestButton() {
+    updateWebActivity();
     if (server->hasArg("button")) {
         int buttonNum = server->arg("button").toInt();
         if (buttonNum >= 1 && buttonNum <= 6) {
@@ -113,6 +131,7 @@ void WebServerManager::handleTestButton() {
 }
 
 void WebServerManager::handleStopAudio() {
+    updateWebActivity();
     if (onStopAudio != nullptr) {
         onStopAudio();
     }
@@ -120,6 +139,7 @@ void WebServerManager::handleStopAudio() {
 }
 
 void WebServerManager::handleBattery() {
+    updateWebActivity();
     int adcValue = analogRead(BATTERY_PIN);
     float voltage = adcValue * ADC_TO_VOLT;
     String json = "{\"voltage\": " + String(voltage) + "}";
@@ -127,6 +147,7 @@ void WebServerManager::handleBattery() {
 }
 
 void WebServerManager::handleFileUpload() {
+    updateWebActivity();
     HTTPUpload& upload = server->upload();
     if (upload.status == UPLOAD_FILE_START) {
         if (!server->hasArg("button")) {
@@ -164,6 +185,7 @@ void WebServerManager::handleFileUpload() {
 }
 
 void WebServerManager::handleUploadResult() {
+    updateWebActivity();
     // The file upload is complete. Now we can safely report success.
     String json = "{\"status\":\"success\", \"message\":\"File uploaded successfully!\"}";
     server->send(200, "application/json", json);
@@ -171,6 +193,7 @@ void WebServerManager::handleUploadResult() {
 }
 
 void WebServerManager::handleListFiles() {
+    updateWebActivity();
     Serial.println("Listing files in /audio directory:");
     
     String json = "{\"files\":[";
@@ -195,6 +218,7 @@ void WebServerManager::handleListFiles() {
 }
 
 void WebServerManager::handleDeleteFile() {
+    updateWebActivity();
     if (server->hasArg("filename")) {
         String filename = "/audio/" + server->arg("filename");
         if (SPIFFS.exists(filename)) {
@@ -210,6 +234,7 @@ void WebServerManager::handleDeleteFile() {
 }
 
 void WebServerManager::handleSetVolume() {
+    updateWebActivity();
     if (server->hasArg("volume")) {
         float volume = server->arg("volume").toFloat();
         if (onSetVolume != nullptr) {
@@ -222,6 +247,7 @@ void WebServerManager::handleSetVolume() {
 }
 
 void WebServerManager::handleGetVolume() {
+    updateWebActivity();
     float volume = 0.5; // Default value
     if (onGetVolume != nullptr) {
         volume = onGetVolume();
