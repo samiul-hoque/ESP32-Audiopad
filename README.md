@@ -1,6 +1,6 @@
 # ESP32-Audiopad
 
-![ESP32 Audiopad](images/esp32_audiopad_photo.jpg)
+![ESP32 Audiopad](images/webui.png)
 
 A WiFi-enabled, web-configurable audio playback device using an ESP32. This project turns an ESP32 into a simple soundboard that plays specific MP3 files when physical buttons are pressed. All configuration, file management, and testing can be done through a web interface hosted on the device itself.
 
