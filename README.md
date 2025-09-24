@@ -1,5 +1,7 @@
 # ESP32-Audiopad
 
+![ESP32 Audiopad](images/esp32_audiopad_photo.jpg)
+
 A WiFi-enabled, web-configurable audio playback device using an ESP32. This project turns an ESP32 into a simple soundboard that plays specific MP3 files when physical buttons are pressed. All configuration, file management, and testing can be done through a web interface hosted on the device itself.
 
 ## Features
@@ -13,6 +15,7 @@ A WiFi-enabled, web-configurable audio playback device using an ESP32. This proj
     *   Remotely test button sounds.
     *   Stop any currently playing audio.
 *   **Over-The-Air (OTA) Updates:** Update the firmware and filesystem (SPIFFS) over WiFi using the Arduino IDE.
+*   **Deep Sleep:** Automatically enters deep sleep after a period of inactivity to conserve battery, and wakes up on a button press.
 *   **I2S Audio Output:** Uses an I2S amplifier for clear digital audio playback.
 *   **Battery Monitoring:** Reads voltage from an ADC pin to provide a battery level estimate on the web UI.
 
@@ -80,6 +83,8 @@ The following pin connections are defined in the code.
 
 ## How to Use
 
+
+
 1.  **Power On:** Power up your ESP32. It will automatically connect to the WiFi network you specified in `secrets.h`.
 
 2.  **Find IP Address:** Open the Arduino IDE's Serial Monitor (baud rate 115200). The ESP32 will print its IP address once connected to WiFi.
@@ -101,5 +106,5 @@ The following pin connections are defined in the code.
     *   You can delete any sound file by clicking the "Delete" button next to it.
 
 ## Future Improvements
-
-*   Implement a deep sleep mode to conserve battery when idle.
+*   Add a visual indicator (e.g., an LED) to show when the device is going to sleep.
+*   Implement a "Settings" page in the web UI to configure sleep timeout and other parameters.
